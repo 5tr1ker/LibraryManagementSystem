@@ -1,0 +1,222 @@
+package javas;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Scanner;
+import java.util.Set;
+
+
+
+public class LibraryManagementSystem {
+	
+	static public void Prints(Iterator<String> ls) {
+    	String indexs;
+    	while(ls.hasNext()) {
+    		if((indexs = ls.next()) != null) {
+    			System.out.println(indexs);
+    		}
+    	}
+    }
+	
+	static public boolean searchs(Iterator<String> sl , String name) {
+		String indexs;
+		while(sl.hasNext()) {
+			indexs = sl.next();
+			if(indexs.equals(name)) {
+				System.out.println("Login Success!");
+				return true;
+			}
+		else {
+			System.out.println("The Admin is not add " + name + " contact the admin" );
+			return false;
+		}
+	}
+		return false;
+	}
+	
+	public static void main(String[] args) {
+		boolean Logins = false;
+		int choice = 0;
+		int index = 1;
+		String names = "null";
+		Boolean exit = false;
+		String Book_name;
+		Boolean UserLogin = false;
+		ArrayList<String> list = new ArrayList<String>(20);
+		HashMap<String, String> Books = new HashMap<String, String>();
+		Scanner sc = new Scanner(System.in);
+		
+		
+		
+		while (exit == false) {
+		while(Logins == false && exit == false && UserLogin == false) {
+		System.out.println("┌━━━━━━━━━━━━━━━━━━━━━━━━┐");
+		System.out.println("│ Library Management     ┃");
+		System.out.println("│ 1 . Login	 	 ┃");
+		System.out.println("│ 2 . Librian		 ┃");
+		System.out.println("│ 3 . Exit		 ┃");
+		System.out.println("└━━━━━━━━━━━━━━━━━━━━━━━━┘");
+		choice = sc.nextInt();
+		sc.nextLine();
+		if(choice < 1 || choice > 3) {
+			System.out.println("Please enter only values ​​between 1 and 3.");
+			continue;
+		}
+		switch (choice) {
+		case 1 : {
+			System.out.print("ID : ");
+			String id_ = sc.nextLine();
+			System.out.print("PassWord : ");
+			String pws = sc.nextLine();
+			if(id_.equals("Admin") && pws.equals("Password")) {                /** Admin Password Id is (Admin / Password) **/
+				System.out.println("Login Success!");
+				Logins = true;
+			} else {
+				System.out.println("Login Fail , try Again");
+			}
+			break;
+		}
+		case 2: {
+			System.out.print("Input your names : ");
+			names = sc.next();
+			if(searchs(list.iterator() , names)) {
+				UserLogin = true;
+			}
+			break;
+		}
+		case 3 :
+			exit = true;
+			System.out.println("Good bye");
+			break;
+		}
+		}
+		
+		/* Login Success Area	*/
+		choice = 0;
+		while((Logins==true && choice != 5 && exit == false)) {
+			System.out.println("┌━━━━━━━━━━━━━━━━━━━━━━━━┐");
+			System.out.println("│ Library Management(Admin)");
+			System.out.println("│ 1 . Add Librian");
+			System.out.println("│ 2 . Delete Librian");
+			System.out.println("│ 3 . Print Librian");
+			System.out.println("│ 4 .  Borrowed book");
+			System.out.println("│ 5 .  ( Logout )");
+			System.out.println("│ 6 . Exit");
+			System.out.println("│ welcome to Admin!		 ");
+			System.out.println("└━━━━━━━━━━━━━━━━━━━━━━━━┘");
+			
+			choice = sc.nextInt();
+			sc.nextLine();
+			if(choice < 1 || choice > 6) {
+				System.out.println("Please enter only values ​​between 1 and 4.");
+				continue;
+			}
+			switch (choice) {
+			case 1: {
+				System.out.print("Please enter Librian name : ");
+				names = sc.nextLine();
+				list.add(names);
+				System.out.println("add Successful");
+				break;
+			}
+			case 2 : {
+				Iterator<String> list_Iterator = list.iterator();
+				System.out.print("Please Enter Librian name : ");
+				names = sc.next();
+				while(list_Iterator.hasNext()) {
+					if(names.equals((list_Iterator.next()))) { 
+						list_Iterator.remove();
+						System.out.println(names + " is complete delete!");
+				} else {
+					System.out.println(names + " is not existence!");
+				}
+				break;
+			}
+			}
+			case 3 : {
+				Prints(list.iterator());
+				break;
+			}
+			case 4 : {
+				Set<String> sl = Books.keySet();
+				Iterator<String> it = sl.iterator();
+				
+				while(it.hasNext()) {
+					Book_name = it.next();
+					String borrow_name = Books.get(Book_name);
+					System.out.println(index + " / " + borrow_name + "  :   "  +  Book_name);
+					index++;
+				}
+				index = 0;
+				break;
+			}
+			case 5 : {
+				Logins = false;
+				System.out.println("Good Bye Admin!");
+				break;
+			}
+			case 6 : {
+				Logins = false;
+				System.out.println("Program is exits");
+				exit = true;
+				break;
+			}
+			default:
+				System.out.println("Index Error");
+				break;
+			}
+		}			//** this area is admin **//
+		
+
+		choice = 0;
+					//**this area is User **//
+		while(exit == false && choice != 4 && UserLogin) {
+			System.out.println("┌━━━━━━━━━━━━━━━━━━━━━━━━┐");
+			System.out.println("│ Library Management(User)" + names);
+			System.out.println("│ 1 . View Book(borrow)");
+			System.out.println("│ 2 . Return Book");
+			System.out.println("│ 3 . Logout");
+			System.out.println("│ 4 . Exit");
+			System.out.println("│    	 hello!		 ");
+			System.out.println("└━━━━━━━━━━━━━━━━━━━━━━━━┘");
+			System.out.print("select :  ");
+			choice = sc.nextInt();
+			sc.nextLine();
+			switch (choice) {
+			case 1 : {
+				System.out.print("Please enter the Book name");
+				Book_name = sc.nextLine();
+				Books.put(Book_name , names);
+				System.out.println("You borrowed a " + Book_name + " book");
+				break;
+			}
+			case 2 : {
+				System.out.print("Please enter the book you want to return.");
+				Book_name = sc.nextLine();
+				if(Books.get(Book_name) != null) {
+					Books.remove(Book_name);
+					System.out.println("[  " + Book_name + "  ]Return completed.");
+				} else {
+					System.out.println("[ " + Book_name + " ]  is not Existence" );
+				}
+				break;
+			}
+			case 3 : {
+				System.out.println("You have been successfully logged out.");
+				UserLogin = false;
+				break;
+			}
+			case 4 : {
+				System.out.println("Program is exits");
+				UserLogin = false;
+				exit = true;
+				break;
+			}
+			default:
+				System.out.println("Wrong Index");
+			}
+		}
+	}
+}
+}
